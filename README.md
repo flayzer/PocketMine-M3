@@ -24,7 +24,7 @@ Yes you can! Contributions are welcomed provided that they comply with our [Cont
 
 
 ### Where can I get the latest .phar?
-We will release phars in the future in this repository so please check Github.com/frontierdevs/Pocketmine-M3/phars
+We will release phars in the future in this repository so please check (https://github.com/FrontierDevs/PocketMine-M3/tree/master/phars)
 
 ## Third-party Libraries/Protocols Used
 * __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
