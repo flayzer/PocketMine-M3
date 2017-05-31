@@ -22,8 +22,9 @@ There are a very wide range of already-written plugins available which you can u
 ### Can I contribute?
 Yes you can! Contributions are welcomed provided that they comply with our [Contributing Guidelines](CONTRIBUTING.md). Please ensure you read the relevant sections of the guidelines carefully before making a Pull Request or opening an Issue.
 
+
 ### Where can I get the latest .phar?
-Head over to our [official Jenkins server](https://jenkins.pmmp.io/)
+We will release phars in the future in this repository so please check Github.com/frontierdevs/Pocketmine-M3/phars
 
 ## Third-party Libraries/Protocols Used
 * __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
@@ -52,4 +53,4 @@ Head over to our [official Jenkins server](https://jenkins.pmmp.io/)
 	You should have received a copy of the GNU Lesser General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pmmp/PocketMine are not affiliated with Mojang. All brands and trademarks belong to their respective owners. PocketMine-MP is not a Mojang-approved software, nor is it associated with Mojang.
+frontierdevs/PocketMine are not affiliated with Mojang. All brands and trademarks belong to their respective owners. PocketMine-M3 is not a Mojang-approved software, nor is it associated with Mojang.
