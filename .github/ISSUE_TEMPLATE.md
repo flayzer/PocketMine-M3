@@ -1,5 +1,4 @@
 ### Issue description
-<!--- use our forum https://forums.pmmp.io for questions -->
 <!--- Any issues requesting updates to new versions of MCPE will be treated as spam. We do not need issues to tell us that there is a new version available. -->
 <!--- 
 Write a short description about the issue
@@ -18,9 +17,11 @@ Actual result: What actually happened?
 <!--- use the 'version' command in PocketMine-MP
 NOTE: LATEST is not a valid version. 
 PocketMine version should include Jenkins build number and/or git commit hash.
-ALSO NOTE: NO support whatsoever will be provided for forks or spoons of PocketMine. Issues relating to non-official distributions will be closed as spam. Please send such issues to whoever is responsible for the fork or spoon you are using.
+ALSO NOTE: NO support whatsoever will be provided for forks or spoons of PocketMine-M3. Issues relating to non-official distributions other than PMM3 will be closed as spam. Please send such issues to whoever is responsible for the fork or spoon you are using.
 -->
-* PocketMine-MP:
+<!---Tell us if your using PMMP or PMM3---!>
+* PMM3 or PMMP?
+* PocketMine-M3 Version:
 * PHP:
 * Server OS:
 * Game version: PE/Win10 (delete as appropriate)
