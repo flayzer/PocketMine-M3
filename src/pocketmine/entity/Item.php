@@ -43,6 +43,8 @@ class Item extends Entity{
 	public $width = 0.25;
 	public $length = 0.25;
 	public $height = 0.25;
+	protected $baseOffset = 0.125;
+
 	protected $gravity = 0.04;
 	protected $drag = 0.02;
 
@@ -226,7 +228,7 @@ class Item extends Entity{
 
 	public function spawnTo(Player $player){
 		$pk = new AddItemEntityPacket();
-		$pk->eid = $this->getId();
+		$pk->entityRuntimeId = $this->getId();
 		$pk->x = $this->x;
 		$pk->y = $this->y;
 		$pk->z = $this->z;
@@ -234,9 +236,8 @@ class Item extends Entity{
 		$pk->speedY = $this->motionY;
 		$pk->speedZ = $this->motionZ;
 		$pk->item = $this->getItem();
+		$pk->metadata = $this->dataProperties;
 		$player->dataPacket($pk);
-
-		$this->sendData($player);
 
 		parent::spawnTo($player);
 	}

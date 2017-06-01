@@ -25,11 +25,15 @@ namespace pocketmine\network\mcpe\protocol;
 
 
 use pocketmine\network\mcpe\NetworkSession;
+#ifndef COMPILE
+use pocketmine\utils\Binary;
+#endif
 
 class BatchPacket extends DataPacket{
-	const NETWORK_ID = ProtocolInfo::BATCH_PACKET;
+	const NETWORK_ID = 0xfe;
 
 	public $payload;
+	public $compressed = false;
 
 	public function canBeBatched() : bool{
 		return false;
@@ -40,23 +44,47 @@ class BatchPacket extends DataPacket{
 	}
 
 	public function decode(){
-		$this->payload = $this->getString();
+		$this->payload = $this->get(true);
 	}
 
 	public function encode(){
 		$this->reset();
-		$this->putString($this->payload);
+		assert($this->compressed);
+		$this->put($this->payload);
+	}
+
+	/**
+	 * @param DataPacket $packet
+	 */
+	public function addPacket(DataPacket $packet){
+		if(!$packet->canBeBatched()){
+			throw new \InvalidArgumentException(get_class($packet) . " cannot be put inside a BatchPacket");
+		}
+		if(!$packet->isEncoded){
+			$packet->encode();
+		}
+
+		$this->payload .= Binary::writeUnsignedVarInt(strlen($packet->buffer)) . $packet->buffer;
+	}
+
+	public function compress(int $level = 7){
+		assert(!$this->compressed);
+		$this->payload = zlib_encode($this->payload, ZLIB_ENCODING_DEFLATE, $level);
+		$this->compressed = true;
 	}
 
 	public function handle(NetworkSession $session) : bool{
 		if(strlen($this->payload) < 2){
-			throw new \InvalidStateException("Not enough bytes in payload, expected zlib header");
+			return false;
 		}
 
-		$str = zlib_decode($this->payload, 1024 * 1024 * 64); //Max 64MB
-		$len = strlen($str);
+		try{
+			$str = zlib_decode($this->payload, 1024 * 1024 * 64); //Max 64MB
+		}catch(\ErrorException $e){
+			return false;
+		}
 
-		if($len === 0){
+		if(strlen($str) === 0){
 			throw new \InvalidStateException("Decoded BatchPacket payload is empty");
 		}
 
@@ -66,6 +94,7 @@ class BatchPacket extends DataPacket{
 		while(!$this->feof()){
 			$buf = $this->getString();
 			$pk = $network->getPacket(ord($buf{0}));
+
 			if(!$pk->canBeBatched()){
 				throw new \InvalidArgumentException("Received invalid " . get_class($pk) . " inside BatchPacket");
 			}

@@ -31,27 +31,37 @@ class CommandStepPacket extends DataPacket{
 	public $command;
 	public $overload;
 	public $uvarint1;
-	public $uvarint2;
-	public $bool;
-	public $uvarint64;
-	public $args;
-	public $string4;
+	public $currentStep;
+	public $done;
+	public $clientId;
+	public $inputJson;
+	public $outputJson;
 
 	public function decode(){
 		$this->command = $this->getString();
 		$this->overload = $this->getString();
 		$this->uvarint1 = $this->getUnsignedVarInt();
-		$this->uvarint2 = $this->getUnsignedVarInt();
-		$this->bool = (bool) $this->getByte();
-		$this->uvarint64 = $this->getUnsignedVarLong();
-		$this->args = json_decode($this->getString());
-		$this->string4 = $this->getString();
+		$this->currentStep = $this->getUnsignedVarInt();
+		$this->done = $this->getBool();
+		$this->clientId = $this->getUnsignedVarLong();
+		$this->inputJson = json_decode($this->getString());
+		$this->outputJson = json_decode($this->getString());
 
 		$this->get(true); //TODO: read command origin data
 	}
 
 	public function encode(){
+		$this->reset();
+		$this->putString($this->command);
+		$this->putString($this->overload);
+		$this->putUnsignedVarInt($this->uvarint1);
+		$this->putUnsignedVarInt($this->currentStep);
+		$this->putBool($this->done);
+		$this->putUnsignedVarLong($this->clientId);
+		$this->putString(json_encode($this->inputJson));
+		$this->putString(json_encode($this->outputJson));
 
+		$this->put("\x00\x00\x00"); //TODO: command origin data
 	}
 
 	public function handle(NetworkSession $session) : bool{

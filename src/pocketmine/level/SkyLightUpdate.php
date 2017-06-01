@@ -19,28 +19,16 @@
  *
 */
 
-namespace pocketmine\network\mcpe\protocol;
-
-#include <rules/DataPacket.h>
+namespace pocketmine\level;
 
 
-use pocketmine\network\mcpe\NetworkSession;
+class SkyLightUpdate extends LightUpdate{
 
-class ReplaceItemInSlotPacket extends DataPacket{
-	const NETWORK_ID = ProtocolInfo::REPLACE_ITEM_IN_SLOT_PACKET;
-
-	public $item;
-
-	public function decode(){
-		$this->item = $this->getSlot();
+	public function getLight(int $x, int $y, int $z) : int{
+		return $this->level->getBlockSkyLightAt($x, $y, $z);
 	}
 
-	public function encode(){
-		$this->reset();
-		$this->putSlot($this->item);
-	}
-
-	public function handle(NetworkSession $session) : bool{
-		return $session->handleReplaceItemInSlot($this);
+	public function setLight(int $x, int $y, int $z, int $level){
+		$this->level->setBlockSkyLightAt($x, $y, $z, $level);
 	}
 }

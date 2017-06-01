@@ -26,42 +26,27 @@ namespace pocketmine\network\mcpe\protocol;
 
 use pocketmine\network\mcpe\NetworkSession;
 
-class MoveEntityPacket extends DataPacket{
-	const NETWORK_ID = ProtocolInfo::MOVE_ENTITY_PACKET;
+class EntityFallPacket extends DataPacket{
+	const NETWORK_ID = ProtocolInfo::ENTITY_FALL_PACKET;
 
-	public $eid;
-	public $x;
-	public $y;
-	public $z;
-	public $yaw;
-	public $headYaw;
-	public $pitch;
-	public $onGround;
-	public $teleported;
+	public $entityRuntimeId;
+	public $fallDistance;
+	public $bool1;
 
 	public function decode(){
-		$this->eid = $this->getEntityRuntimeId();
-		$this->getVector3f($this->x, $this->y, $this->z);
-		$this->pitch = $this->getByte() * (360.0 / 256);
-		$this->headYaw = $this->getByte() * (360.0 / 256);
-		$this->yaw = $this->getByte() * (360.0 / 256);
-		$this->onGround = $this->getBool();
-		$this->teleported = $this->getBool();
+		$this->entityRuntimeId = $this->getEntityRuntimeId();
+		$this->fallDistance = $this->getLFloat();
+		$this->bool1 = $this->getBool();
 	}
 
 	public function encode(){
 		$this->reset();
-		$this->putEntityRuntimeId($this->eid);
-		$this->putVector3f($this->x, $this->y, $this->z);
-		$this->putByte($this->pitch / (360.0 / 256));
-		$this->putByte($this->headYaw / (360.0 / 256));
-		$this->putByte($this->yaw / (360.0 / 256));
-		$this->putBool($this->onGround);
-		$this->putBool($this->teleported);
+		$this->putEntityRuntimeId($this->entityRuntimeId);
+		$this->putLFloat($this->fallDistance);
+		$this->putBool($this->bool1);
 	}
 
 	public function handle(NetworkSession $session) : bool{
-		return $session->handleMoveEntity($this);
+		return $session->handleEntityFall($this);
 	}
-
 }

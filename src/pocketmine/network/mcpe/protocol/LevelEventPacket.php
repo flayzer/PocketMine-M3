@@ -71,6 +71,8 @@ class LevelEventPacket extends DataPacket{
 
 	const EVENT_PARTICLE_BLOCK_FORCE_FIELD = 2008;
 
+	const EVENT_PARTICLE_PUNCH_BLOCK = 2014;
+
 	const EVENT_START_RAIN = 3001;
 	const EVENT_START_THUNDER = 3002;
 	const EVENT_STOP_RAIN = 3003;
@@ -86,6 +88,9 @@ class LevelEventPacket extends DataPacket{
 	const EVENT_CAULDRON_TAKE_WATER = 3507;
 	const EVENT_CAULDRON_ADD_DYE = 3508;
 
+	const EVENT_BLOCK_START_BREAK = 3600;
+	const EVENT_BLOCK_STOP_BREAK = 3601;
+
 	const EVENT_SET_DATA = 4000;
 
 	const EVENT_PLAYERS_SLEEPING = 9800;
@@ -99,7 +104,9 @@ class LevelEventPacket extends DataPacket{
 	public $data;
 
 	public function decode(){
-
+		$this->evid = $this->getVarInt();
+		$this->getVector3f($this->x, $this->y, $this->z);
+		$this->data = $this->getVarInt();
 	}
 
 	public function encode(){
