@@ -37,8 +37,7 @@ class PumpkinStem extends Crops{
 
 	public function getName(){
 		return "Pumpkin Stem";
-	}
-
+	}//getDrops
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(Vector3::SIDE_DOWN)->getId() !== Block::FARMLAND){
@@ -80,9 +79,9 @@ class PumpkinStem extends Crops{
 		return false;
 	}
 
-	public function getDrops(Item $item){
-		return [
-			[Item::PUMPKIN_SEEDS, 0, mt_rand(0, 2)],
-		];
-	}
+	//public function getDrops(Item $item){
+		//return [
+			//[Item::PUMPKIN_SEEDS, 0, mt_rand(0, 2)],
+		//];
+	//}
 }
