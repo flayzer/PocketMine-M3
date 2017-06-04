@@ -19,6 +19,8 @@
  *
 */
 
+declare(strict_types=1);
+
 namespace pocketmine\network\mcpe\protocol;
 
 #include <rules/DataPacket.h>
@@ -352,5 +354,13 @@ abstract class DataPacket extends BinaryStream{
 		$this->putLFloat($x);
 		$this->putLFloat($y);
 		$this->putLFloat($z);
+	}
+
+	public function getByteRotation() : float{
+		return (float) ($this->getByte() * (360 / 256));
+	}
+
+	public function putByteRotation(float $rotation){
+		$this->putByte((int) ($rotation / (360 / 256)));
 	}
 }
