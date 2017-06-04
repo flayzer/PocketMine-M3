@@ -1243,6 +1243,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * TODO: remove this when Spectator Mode gets added properly to MCPE
 	 *
 	 * @param int $gamemode
+	 * @return int
 	 */
 	public static function getClientFriendlyGamemode(int $gamemode) : int{
 		$gamemode &= 0x03;
@@ -1874,11 +1875,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->dataPacket($pk);
 
 		$this->server->getPluginManager()->callEvent($ev = new PlayerLoginEvent($this, "Plugin reason"));
- 		if($ev->isCancelled()){
- 			$this->close($this->getLeaveMessage(), $ev->getKickMessage());
- 
- 			return;
- 		}		
+		if($ev->isCancelled()){
+			$this->close($this->getLeaveMessage(), $ev->getKickMessage());
+
+			return;
+		}
 
 		$this->level->sendTime($this);
 
